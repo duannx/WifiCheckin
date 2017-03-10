@@ -1,0 +1,88 @@
+<div id="my-tab">
+    <div class="tap-item active" (click)="activeTab(1)" id="tab-home">
+        <ion-icon name="home"></ion-icon>
+    </div>
+    <div class="tap-item" (click)="activeTab(2)" id="tab-feed">
+        <i class="fa fa-cutlery" aria-hidden="true"></i>
+    </div>
+    <div class="tap-item" (click)="activeTab(3)" id="tab-profile">
+        <ion-icon name="contact"></ion-icon>
+    </div>
+    <div id="tab-highlight">
+        <div id="tab-highlight-content"></div>
+    </div>
+</div>
+<div id="tab-content">
+    <div id="tab-scroll-content">
+        <div class="tab-item-content">
+            <div class="alert-div" *ngIf="showAlertText">
+                <span>{{alertText}}</span>
+            </div>
+            <div id="checkin-div">
+                <h3 class="zone-title">
+                    Check-in status:
+                </h3>
+                <div class="circle-progress" [ngClass]="checkinClass" [attr.data-progress]="checkinProgress" (click)="doCheckin()">
+                    <div class="half left">
+                        <div class="fill"></div>
+                    </div>
+                    <div class="half right">
+                        <div class="fill"></div>
+                        <div class="fill fix"></div>
+                    </div>
+                    <div class="content" [innerHTML]="checkinText"> </div>
+                </div>
+            </div>
+            <div id="checkout-div">
+                <h3 class="zone-title">
+                    Check-out status:
+                </h3>
+                <div [ngClass]="checkoutClass" class="circle-progress" [attr.data-progress]="checkoutProgress" (click)="doCheckin()">
+                    <div class="half left">
+                        <div class="fill"></div>
+                    </div>
+                    <div class="half right">
+                        <div class="fill"></div>
+                        <div class="fill fix"></div>
+                    </div>
+                    <div class="content" [innerHTML]="checkoutText">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-item-content">
+            tab 2
+        </div>
+        <div class="tab-item-content">
+            <div class="avatar-div">
+                <div class="cover">
+                    <img src="../../images/cover.jpg" alt="cover-image">
+                </div>
+                <div class="avatar">
+                    <img src="../../images/avatar.png" alt="user's avatar">
+                </div>
+            </div>
+            <div class="task-div">
+                <ion-list>
+                    <ion-item>
+                        <ion-label>example@gmail.com</ion-label>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>Male - Age 25</ion-label>
+                    </ion-item>
+                    <button ion-item>
+                        <ion-label item-left>B-Gate Corp
+                        </ion-label >
+                        <ion-icon item-right name="ios-arrow-forward"></ion-icon>
+                    </button>
+
+                    <button ion-item (click)="gotoCheckinHistory()">
+                        <ion-label item-left>Checkin History
+                        </ion-label >
+                        <ion-icon item-right name="ios-arrow-forward"></ion-icon>
+                    </button>
+                </ion-list>
+            </div>
+        </div>
+    </div>
+</div>
