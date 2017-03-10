@@ -68,4 +68,33 @@ page-history {
             background-color: $dateOutTimeColor;
         }
     }
+    .statistic {
+        width: 100%;
+        margin-top: 20px;
+        .statistic-item {
+            height: $dateBlockHeight;
+            width: 50%;
+            margin: 5px auto;
+            p {
+                float: left;
+                margin-left: 15px;
+            }
+        }
+        .statistic-block {
+            width: $dateBlockHeight;
+            height: $dateBlockHeight;
+            background-color: #eee;
+            display: flex;
+            float: left;
+            >* {
+                margin: auto;
+            }
+        }
+        .statistic-block.on-time {
+            background-color: $dateOnTimeColor;
+        }
+        .statistic-block.out-time {
+            background-color: $dateOutTimeColor;
+        }
+    }
 }

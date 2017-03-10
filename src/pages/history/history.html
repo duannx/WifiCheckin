@@ -27,21 +27,21 @@
             <div class="day"><span>Sa</span></div>
             <div class="day"><span>Su</span></div>
         </div>
-        <div class="date-group">
-            <div class="date on-time"></div>
-            <div class="date on-time"></div>
-            <div class="date on-time"></div>
-            <div class="date out-time"></div>
-            <div class="date"></div>
-            <div class="date on-time"></div>
-            <div class="date out-time"></div>
-            <div class="date out-time"></div>
-            <div class="date on-time"></div>
-            <div class="date on-time"></div>
-            <div class="date"></div>
-            <div class="date"></div>
-            <div class="date"></div>
-            <div class="date"></div>
+        <div class="date-group" [innerHTML]="dateHtml">
+        </div>
+    </div>
+    <div class="statistic">
+        <div class="statistic-item">
+            <div class="statistic-block on-time"><span>{{onTimeDays}}</span></div>
+            <p>On time</p>
+        </div>
+        <div class="statistic-item">
+            <div class="statistic-block out-time"><span>{{outTimeDays}}</span></div>
+            <p>Late</p>
+        </div>
+        <div class="statistic-item">
+            <div class="statistic-block"><span>{{noDataDay}}</span></div>
+            <p>No data</p>
         </div>
     </div>
 </ion-content>
