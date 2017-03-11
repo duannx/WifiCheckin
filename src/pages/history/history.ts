@@ -23,6 +23,126 @@ export class HistoryPage {
   checkinData = [
     {
       "checkinPlace": "bGateCorp",
+      "checkInTime": Date.parse('Wen, 01 Feb 2017 08:21:00'),
+      "checkOutTime": Date.parse('Wen, 01 Feb 2017 18:16:00'),
+      "isOntime": true
+    },
+    {
+      "checkinPlace": "bGateCorp",
+      "checkInTime": Date.parse('Thu, 02 Feb 2017 08:16:00'),
+      "checkOutTime": Date.parse('Thu, 02 Feb 2017 17:49:00'),
+      "isOntime": true
+    },
+    {
+      "checkinPlace": "bGateCorp",
+      "checkInTime": Date.parse('Fri, 03 Feb 2017 08:31:00'),
+      "checkOutTime": Date.parse('Fri, 03 Feb 2017 17:36:00'),
+      "isOntime": false
+    },
+    {
+      "checkinPlace": "bGateCorp",
+      "checkInTime": Date.parse('Mon, 06 Feb 2017 08:10:00'),
+      "checkOutTime": Date.parse('Mon, 06 Feb 2017 18:16:00'),
+      "isOntime": true
+    },
+    {
+      "checkinPlace": "bGateCorp",
+      "checkInTime": Date.parse('Tue, 07 Feb 2017 08:22:00'),
+      "checkOutTime": Date.parse('Tue, 07 Feb 2017 17:39:00'),
+      "isOntime": true
+    },
+    {
+      "checkinPlace": "bGateCorp",
+      "checkInTime": Date.parse('Wen, 08 Feb 2017 08:13:00'),
+      "checkOutTime": Date.parse('Wen, 01 Feb 2017 17:59:00'),
+      "isOntime": true
+    },
+    {
+      "checkinPlace": "bGateCorp",
+      "checkInTime": Date.parse('Thu, 09 Feb 2017 08:19:00'),
+      "checkOutTime": Date.parse('Thu, 09 Feb 2017 18:21:00'),
+      "isOntime": true
+    },
+    {
+      "checkinPlace": "bGateCorp",
+      "checkInTime": Date.parse('Fri, 10 Feb 2017 08:26:00'),
+      "checkOutTime": Date.parse('Fri, 10 Feb 2017 17:47:00'),
+      "isOntime": true
+    },
+    {
+      "checkinPlace": "bGateCorp",
+      "checkInTime": Date.parse('Mon, 13 Feb 2017 08:25:00'),
+      "checkOutTime": Date.parse('Mon, 13 Feb 2017 18:49:00'),
+      "isOntime": true
+    },
+    {
+      "checkinPlace": "bGateCorp",
+      "checkInTime": Date.parse('Tue, 14 Feb 2017 09:03:00'),
+      "checkOutTime": Date.parse('Tue, 14 Feb 2017 17:39:00'),
+      "isOntime": false
+    },
+    {
+      "checkinPlace": "bGateCorp",
+      "checkInTime": Date.parse('Wen, 15 Feb 2017 08:36:00'),
+      "checkOutTime": Date.parse('Wen, 15 Feb 2017 18:12:00'),
+      "isOntime": false
+    },
+    {
+      "checkinPlace": "bGateCorp",
+      "checkInTime": Date.parse('Thu, 16 Feb 2017 08:20:00'),
+      "checkOutTime": Date.parse('Thu, 16 Feb 2017 19:01:00'),
+      "isOntime": true
+    },
+    {
+      "checkinPlace": "bGateCorp",
+      "checkInTime": Date.parse('Fri, 17 Feb 2017 08:17:00'),
+      "checkOutTime": Date.parse('Fri, 17 Feb 2017 17:55:00'),
+      "isOntime": true
+    },
+    {
+      "checkinPlace": "bGateCorp",
+      "checkInTime": Date.parse('Mon, 20 Feb 2017 08:22:00'),
+      "checkOutTime": Date.parse('Mon, 20 Feb 2017 17:36:00'),
+      "isOntime": true
+    },
+    {
+      "checkinPlace": "bGateCorp",
+      "checkInTime": Date.parse('Tue, 21 Feb 2017 08:21:00'),
+      "checkOutTime": Date.parse('Tue, 21 Feb 2017 18:06:00'),
+      "isOntime": true
+    },
+    {
+      "checkinPlace": "bGateCorp",
+      "checkInTime": Date.parse('Wen, 22 Feb 2017 08:26:00'),
+      "checkOutTime": Date.parse('Wen, 22 Feb 2017 18:51:00'),
+      "isOntime": true
+    },
+    {
+      "checkinPlace": "bGateCorp",
+      "checkInTime": Date.parse('Thu, 23 Feb 2017 08:23:00'),
+      "checkOutTime": Date.parse('Thu, 23 Feb 2017 18:35:00'),
+      "isOntime": true
+    },
+    {
+      "checkinPlace": "bGateCorp",
+      "checkInTime": Date.parse('Fri, 24 Feb 2017 08:32:00'),
+      "checkOutTime": Date.parse('Fri, 24 Feb 2017 18:16:00'),
+      "isOntime": false
+    },
+    {
+      "checkinPlace": "bGateCorp",
+      "checkInTime": Date.parse('Mon, 27 Feb 2017 08:18:00'),
+      "checkOutTime": Date.parse('Mon, 27 Feb 2017 18:06:00'),
+      "isOntime": true
+    },
+    {
+      "checkinPlace": "bGateCorp",
+      "checkInTime": Date.parse('Tue, 28 Feb 2017 08:09:00'),
+      "checkOutTime": Date.parse('Tue, 28 Feb 2017 17:53:00'),
+      "isOntime": true
+    },
+    {
+      "checkinPlace": "bGateCorp",
       "checkInTime": 1488511689819,
       "checkOutTime": 0,
       "isOntime": true

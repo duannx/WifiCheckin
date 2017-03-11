@@ -48,6 +48,19 @@ export class CheckinProvider {
       .toPromise(); 
   }
 
+  serverCheckout(macid: string): Promise<any> {
+    let body = {
+      "username": this.username,
+      "userid": this.userid,
+      "access_token": this.token,
+      "macid": macid,
+      "company": this.company
+    };
+
+    return this.http.post(this.domainName + this.apiPath + "checkout", body)
+      .toPromise(); 
+  }
+
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);

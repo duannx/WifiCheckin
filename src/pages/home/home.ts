@@ -17,8 +17,8 @@ export class HomePage {
   currentDate = "";
   checkinData = { "checkInTime": 0, "checkOutTime": 0, "today": "" };
   checkinStatus = { "checkedin": false, "checkedout": false }
-  checkinClass = "progress-primary";
-  checkoutClass = "progress-primary";
+  checkinClass = "progress-default";
+  checkoutClass = "progress-default";
   checkinProgress = 0;
   checkoutProgress = 0;
   checkinText = "<span>Not Yet!</span>";
@@ -215,7 +215,8 @@ export class HomePage {
   showToast(message: string, duration: number) {
     let toast = this.toastCtrl.create({
       message: message,
-      duration: duration
+      duration: duration,
+      position: "top"
     })
     toast.present();
   }
@@ -234,10 +235,12 @@ export class HomePage {
           if (this.checkinData.checkInTime > 0) {
             this.showCheckinStatus(1);
           }
+          if (this.checkinData.checkOutTime > 0) {
+            this.showCheckoutStatus(1);
+          }
           console.log("Exists local data: ", localData);
         } else {
           console.log("Not exists local data");
-
         }
 
         this.checkinProvider.serverGetCheckinStatus(this.currentDate).then(
@@ -250,18 +253,20 @@ export class HomePage {
               this.checkinData.today = "";
               this.storage.set("todayCheckedin", this.checkinData);
               this.showCheckinStatus(4);
+              this.showCheckoutStatus(4);
             } else {
               //Existing data in server
               this.checkinData.checkInTime = body.checkInTime;
               this.checkinData.checkOutTime = body.checkOutTime;
               this.checkinData.today = this.currentDate;
               if (body.checkInTime > 0) this.showCheckinStatus(1);
+              if (body.checkOutTime > 0) this.showCheckoutStatus(1);
               //store in to local
               this.storage.set("todayCheckedin", this.checkinData);
               console.log("Data update successfully", data);
             }
           }, (error) => {
-            this.showToast("Could not connect to server. Please check the internet. " + error, 5000);
+            this.showToast("Could not connect to server. Please check the internet. ", 5000);
             console.log("Could not connect to server. Please check the internet. " + error);
           }
         )
@@ -292,7 +297,38 @@ export class HomePage {
       }
       default: {
         //Not yet
-        this.checkinClass = "progress-danger";
+        this.checkinClass = "progress-default";
+        this.checkinProgress = 0;
+        this.checkinText = "<span>Not Yet!</span>";
+        return;
+      }
+    }
+  }
+  showCheckoutStatus(mode: number) {
+    switch (mode) {
+      case 1: {
+        //Checked in
+        this.checkoutClass = "progress-primary";
+        this.checkoutProgress = 100;
+        this.checkoutText = "<span>Checked out <i class=\"fa fa-check-circle\"></i></span>";
+        return;
+      }
+      case 2: {
+        //Checking ...
+        this.checkoutClass = "progress-secondary";
+        this.checkoutText = "<span>Checking ...</span>";
+        return;
+      }
+      case 3: {
+        //Failed
+        this.checkoutClass = "progress-danger";
+        this.checkoutProgress = 100;
+        this.checkoutText = "<span>Failed <i class=\"fa fa-exclamation-circle\"></i></span>";
+        return;
+      }
+      default: {
+        //Not yet
+        this.checkinClass = "progress-default";
         this.checkinProgress = 0;
         this.checkinText = "<span>Not Yet!</span>";
         return;
@@ -305,8 +341,7 @@ export class HomePage {
     let progressTimeout1 = setTimeout(() => { this.checkinProgress = 60 }, 2000);
     let progressTimeout2 = setTimeout(() => { this.checkinProgress = 80 }, 5000);
     WifiWizard.getCurrentSSID((e) => {
-      console.log("getCurrentSSID success");
-      console.log(e);
+      console.log("getCurrentSSID success", e);
       this.checkinProvider.serverCheckin(e).then((res) => {
         clearTimeout(progressTimeout1);
         clearTimeout(progressTimeout2);
@@ -330,16 +365,14 @@ export class HomePage {
           case 3: {
             //User does not belong company
             this.showCheckinStatus(3);
-            this.alertText = "User does not belong company";
-            this.showAlertText = true;
+            this.showToast("User does not belong company", 5000);
             console.log("User does not belong company");
             break;
           }
           case 4: {
             //Invalid macid
             this.showCheckinStatus(3);
-            this.alertText = "You have to use company's wifi to checkin. Your company wifi name: " + body.validWifi;
-            this.showAlertText = true;
+            this.showToast("You have to use company's wifi to checkin. Your company wifi name: " + body.validWifi, 5000);
             console.log("Invalid macid");
             console.log("User macid: ", e);
             console.log("Valid wifi: ", body.validWifi);
@@ -353,8 +386,7 @@ export class HomePage {
         }
       }, (error) => {
         console.log("Could not connect to server. Please check the internet. " + error);
-        this.alertText = "Could not connect to server. Please check the internet.";
-        this.showAlertText = true;
+        this.showToast("Could not connect to server. Please check the internet.", 5000);
         this.showCheckinStatus(3);
         clearTimeout(progressTimeout1);
         clearTimeout(progressTimeout2);
@@ -363,8 +395,72 @@ export class HomePage {
 
     }, (e) => {
       console.log("getCurrentSSID Fail");
-      this.alertText = "Wifi is not enabled";
-      this.showAlertText = true;
+      this.showToast("Wifi is not enabled", 5000);
+      this.showCheckinStatus(3);
+      clearTimeout(progressTimeout1);
+      clearTimeout(progressTimeout2);
+      this.refresh();
+    });
+  }
+
+  doCheckout() {
+    this.showCheckoutStatus(2);
+    this.checkoutProgress = 0;
+    let progressTimeout1 = setTimeout(() => { this.checkoutProgress = 60 }, 2000);
+    let progressTimeout2 = setTimeout(() => { this.checkoutProgress = 80 }, 5000);
+    WifiWizard.getCurrentSSID((e) => {
+      console.log("getCurrentSSID success", e);
+      this.checkinProvider.serverCheckout(e).then((res) => {
+        clearTimeout(progressTimeout1);
+        clearTimeout(progressTimeout2);
+        let body = JSON.parse(res._body);
+        switch (body.code) {
+          case 1: {
+            //Checked out successfully            
+            //OR Already checked out
+            this.showCheckoutStatus(1);
+            this.checkinData.checkOutTime = body.checkoutTime;
+            this.checkinData.today = body.today;
+            //Sotore data to local
+            this.storage.set("todayCheckedin", this.checkinData);
+            console.log("Checked out successfully");
+            break;
+          }
+          case 2: {
+            //Have not checked in yet or User does not belong company
+            this.showCheckoutStatus(3);
+            this.showToast(body.message, 5000);
+            console.log("User does not belong company", body);
+            setTimeout(this.showCheckoutStatus(4), 5000);
+            break;
+          }
+          case 3: {
+            //Invalid macid
+            this.showCheckoutStatus(3);
+            this.showToast("You have to use company's wifi to checkin. Your company wifi name: " + body.validWifi, 5000);
+            console.log("Invalid macid");
+            console.log("User macid: ", e);
+            console.log("Valid wifi: ", body.validWifi);
+            break;
+          }
+          default: {
+            console.log(body.code);
+            this.showCheckoutStatus(4);
+            setTimeout(this.refresh, 2000);
+          }
+        }
+      }, (error) => {
+        console.log("Could not connect to server. Please check the internet. " + error);
+        this.showToast("Could not connect to server. Please check the internet.", 5000);
+        this.showCheckoutStatus(3);
+        clearTimeout(progressTimeout1);
+        clearTimeout(progressTimeout2);
+        setTimeout(this.refresh, 2000);
+      })
+
+    }, (e) => {
+      console.log("getCurrentSSID Fail");
+      this.showToast("Wifi is not enabled", 5000);
       this.showCheckinStatus(3);
       clearTimeout(progressTimeout1);
       clearTimeout(progressTimeout2);

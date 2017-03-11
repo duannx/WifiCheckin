@@ -15,14 +15,14 @@
 <div id="tab-content">
     <div id="tab-scroll-content">
         <div class="tab-item-content">
-            <div class="alert-div" *ngIf="showAlertText">
+            <!--<div class="alert-div" *ngIf="showAlertText">
                 <span>{{alertText}}</span>
-            </div>
+            </div>-->
             <div id="checkin-div">
                 <h3 class="zone-title">
                     Check-in status:
                 </h3>
-                <div class="circle-progress" [ngClass]="checkinClass" [attr.data-progress]="checkinProgress" (click)="doCheckin()">
+                <div class="circle-progress progress-default" [ngClass]="checkinClass" [attr.data-progress]="checkinProgress" (click)="doCheckin()">
                     <div class="half left">
                         <div class="fill"></div>
                     </div>
@@ -37,7 +37,7 @@
                 <h3 class="zone-title">
                     Check-out status:
                 </h3>
-                <div [ngClass]="checkoutClass" class="circle-progress" [attr.data-progress]="checkoutProgress" (click)="doCheckin()">
+                <div [ngClass]="checkoutClass" class="circle-progress progress-default" [attr.data-progress]="checkoutProgress" (click)="doCheckout()">
                     <div class="half left">
                         <div class="fill"></div>
                     </div>
@@ -56,10 +56,10 @@
         <div class="tab-item-content">
             <div class="avatar-div">
                 <div class="cover">
-                    <img src="../../images/cover.jpg" alt="cover-image">
+                    <img src="../images/cover.jpg" alt="cover-image">
                 </div>
                 <div class="avatar">
-                    <img src="../../images/avatar.png" alt="user's avatar">
+                    <img src="../images/avatar.png" alt="user's avatar">
                 </div>
             </div>
             <div class="task-div">

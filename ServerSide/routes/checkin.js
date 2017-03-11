@@ -73,12 +73,14 @@ var checkin = {
                             return;
                         }
                         //check in
-                        let nowTime = date.getTime()
+                        let nowTime = date.getTime();
+                        let isOntime = false;
+                        if (date.getHours * 60 + date.getMinutes * 60 <= (8 * 60 + 30)) isOntime = true;
                         userCheckinRef.child(userid + '/' + currentDate).set({
                             'checkInPlace': company,
                             'checkInTime': nowTime,
                             'checkOutTime': 0,
-                            'isOntime': false
+                            'isOntime': isOntime
                         });
                         res.status(200);
                         res.json({
@@ -186,11 +188,11 @@ var checkin = {
         //check if user have checked in yet
         userCheckinRef.child('/' + userid + '/' + currentDate + '/checkInTime').once('value', (snapshot) => {
             //have not yet checked in yet
-            if (snapshot.val() == null) {
-                res.status(401);
+            if (snapshot.val() == null || snapshot.val() == 0) {
+                res.status(200);
                 res.json({
-                    'status': 401,
-                    'message': 'User have NOT yet checked in'
+                    'code': 2,
+                    'message': 'User have NOT checked in yet'
                 });
                 return;
             } else {
@@ -198,10 +200,11 @@ var checkin = {
                 userCheckinRef.child('/' + userid + '/' + currentDate + '/checkOutTime').once('value', (snapshot) => {
                     //user have already checked out
                     if (snapshot.val() != null && snapshot.val() != 0) {
-                        res.status(401);
+                        res.status(200);
                         res.json({
-                            'status': 401,
-                            'message': 'User have already checked out'
+                            'code': 1,
+                            'message': 'User have already checked out',
+                            'checkoutTime': snapshot.val()
                         });
                         return;
 
@@ -210,9 +213,9 @@ var checkin = {
                         //check if user belong company
                         userRef.child("/" + userid + '/company/' + company).once('value', (snapshot) => {
                             if (snapshot.val() == null) {
-                                res.status(401);
+                                res.status(200);
                                 res.json({
-                                    'status': 401,
+                                    'code': 2,
                                     'message': 'User does not belong company'
                                 });
                                 return;
@@ -221,21 +224,23 @@ var checkin = {
                             //check if user using company's wifi to check in
                             companyRef.child("/" + company + '/wifiInfo/macid/' + wifiMacId).once('value', (snapshot) => {
                                 if (snapshot.val() == null) {
-                                    res.status(401);
+                                    res.status(200);
                                     res.json({
-                                        'status': 401,
+                                        'code': 3,
                                         'message': 'Invalid macid'
                                     });
                                     return;
                                 }
                                 //check out
+                                let checkoutTime = date.getTime();
                                 userCheckinRef.child(userid + '/' + currentDate).update({
-                                    'checkOutTime': date.getTime()
+                                    'checkOutTime': checkoutTime
                                 });
                                 res.status(200);
                                 res.json({
-                                    'status': 200,
-                                    'message': 'Checked out successfully'
+                                    'code': 1,
+                                    'message': 'Checked out successfully',
+                                    'checkoutTime': checkoutTime
                                 });
                                 return;
                             })
