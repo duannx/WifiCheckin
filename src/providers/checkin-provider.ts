@@ -72,6 +72,19 @@ export class CheckinProvider {
       .toPromise();
   }
 
+  serverGetCheckinHistory(startTime: number, endTime: number): Promise<any> {
+    let body = {
+      "username": this.username,
+      "userid": this.userid,
+      "access_token": this.token,
+      "start_time": startTime,
+      "end_time": endTime
+    };
+
+    return this.http.post(this.domainName + this.apiPath + "history", body)
+      .toPromise();
+  }
+
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);

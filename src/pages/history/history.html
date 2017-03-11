@@ -10,11 +10,11 @@
 <ion-content padding>
     <div class="calendar">
         <div class="month-bar">
-            <div class="prev-button">
+            <div class="prev-button" (click)="prevMonth()">
                 <ion-icon name="arrow-back"></ion-icon>
             </div>
             <div class="month"><span>{{currentMonth}}</span></div>
-            <div class="forward-button">
+            <div class="forward-button" (click)="nextMonth()">
                 <ion-icon name="arrow-forward"></ion-icon>
             </div>
         </div>
@@ -27,7 +27,10 @@
             <div class="day"><span>Sa</span></div>
             <div class="day"><span>Su</span></div>
         </div>
-        <div class="date-group" [innerHTML]="dateHtml">
+        <div class="date-group" *ngIf="checkinData">
+            <div class="date" *ngFor="let day of checkinData" [ngClass]="day.class">
+                <span *ngIf="day.checkInDay" (click)="showCheckinDetail(day.checkInDay, day.checkInTime, day.checkOutTime, day.isOnTime)">{{day.checkInDay}}</span>
+            </div>
         </div>
     </div>
     <div class="statistic">
