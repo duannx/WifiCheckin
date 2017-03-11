@@ -68,7 +68,7 @@ export class CheckinProvider {
       "company": this.company
     };
 
-    return this.http.post(this.domainName + this.apiPath + "getProduct", body)
+    return this.http.post(this.domainName + this.apiPath + "products", body)
       .toPromise();
   }
 

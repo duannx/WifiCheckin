@@ -14,7 +14,7 @@
 </div>
 <div id="tab-content">
     <div id="tab-scroll-content">
-        <div class="tab-item-content">
+        <div class="tab-item-content" *ngIf="activeTab1">
             <!--<div class="alert-div" *ngIf="showAlertText">
                 <span>{{alertText}}</span>
             </div>-->
@@ -50,16 +50,27 @@
                 </div>
             </div>
         </div>
-        <div class="tab-item-content">
-            tab 2
+        <div class="tab-item-content" id="products" *ngIf="activeTab2">
+            <div id="screen" style="background: #EDEDE1">
+                <div id="content">
+                    <div *ngFor='let food of foods' class="foods">
+                        <div class="img" (click)="showConfirm(food)">
+                            <img src='{{food.value.img}}'>
+                        </div>
+                        <div class="name" (click)="showConfirm(food)">{{food.value.name}}</div>
+                        <div class="price">{{food.value.price}}</div>
+                        <div class="details">{{food.value.details}}</div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="tab-item-content">
+        <div class="tab-item-content" *ngIf="activeTab3">
             <div class="avatar-div">
                 <div class="cover">
-                    <img src="https://firebasestorage.googleapis.com/v0/b/team-check-in-app.appspot.com/o/cover.jpg?alt=media&token=6ed6065c-9833-4ef3-b1e6-622d15ede0e3" alt="user's avatar">
+                    <img src="assets/images/cover.jpg" alt="cover">
                 </div>
                 <div class="avatar">
-                    <img src="https://firebasestorage.googleapis.com/v0/b/team-check-in-app.appspot.com/o/avatar.png?alt=media&token=ad53db04-e8b2-46c0-8602-ca38e9c9919c" alt="cover-image">
+                    <img src="assets/images/avatar.png" alt="avatar">
                 </div>
             </div>
             <div class="task-div">
@@ -70,7 +81,7 @@
                     <ion-item>
                         <ion-label>Male - Age 25</ion-label>
                     </ion-item>
-                    <ion-item>
+                    <ion-item (click)="goToAboutPage()">
                         <ion-label item-left>B-Gate Corp
                         </ion-label>
                         <ion-icon item-right name="ios-arrow-forward"></ion-icon>

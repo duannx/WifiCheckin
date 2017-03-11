@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { Platform, ToastController, NavController } from 'ionic-angular';
+import { Platform, ToastController, NavController, AlertController } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 import { Storage } from '@ionic/storage'
 import { CheckinProvider } from '../../providers/checkin-provider';
 import { HistoryPage } from '../history/history';
+import { AboutPage } from '../about/about';
 declare var WifiWizard: any
 @Component({
   selector: 'page-home',
@@ -13,6 +14,9 @@ export class HomePage {
   //loader css varible
   displayLoader = "block";
   loadingText = "Loading ...";
+  //Product varible
+  foods: any;
+  currentFood: any;
   //check in varible
   currentDate = "";
   checkinData = { "checkInTime": 0, "checkOutTime": 0, "today": "" };
@@ -45,19 +49,41 @@ export class HomePage {
   private holdDirection: number = 0; //while hold directon != 0 can not change the direction in touchmove
 
   private requestId; //id of requestAnimationFrame
+
+  private activeTab1 = true;
+  private activeTab2 = false;
+  private activeTab3 = false;
   //End Custom tab varible
 
-  constructor(platform: Platform, public toastCtrl: ToastController, public navCtrl: NavController, public storage: Storage, public checkinProvider: CheckinProvider) {
+  constructor(platform: Platform, public toastCtrl: ToastController, public navCtrl: NavController, public storage: Storage, public checkinProvider: CheckinProvider, public alertCtrl: AlertController) {
     let date = new Date();
     this.currentDate = date.getDate() + "_" + date.getMonth() + "_" + date.getFullYear();
     platform.ready().then(() => {
+      setTimeout(() => {
+        this.activeTab2 = true;
+      }, 5000);
+      setTimeout(() => {
+        this.activeTab3 = true;
+      }, 10000);
       StatusBar.styleDefault();
       Splashscreen.hide();
       // this.getCheckinStatus();
+      this.checkinProvider.serverGetProducts().then((res) => {
+        let body = JSON.parse(res._body);
+        let m: string[]
+        this.foods = this.transform(body, m);
+      }, (rej) => {
+        console.log("connect failed");
+      })
     });
+
+  }
+  ngOnInit() {
+
   }
   // Custom tab function
   ngAfterViewInit() {
+
     this.tabContent = document.getElementById('tab-content');
     this.frameWidth = this.tabContent.clientWidth;
     this.frameHeight = this.tabContent.clientHeight;
@@ -147,6 +173,8 @@ export class HomePage {
   }
 
   activeTab(tab: number) {
+    if (tab == 2) this.activeTab2 = true;
+    if (tab == 3) { this.activeTab3 = true; this.activeTab2 = true }
     if (this.requestId != null && this.requestId != undefined) cancelAnimationFrame(this.requestId);
     this.scrollLeft = this.tabContent.scrollLeft;
     let acceleration = Math.abs(this.currentTab - tab);
@@ -470,5 +498,60 @@ export class HomePage {
 
   gotoCheckinHistory() {
     this.navCtrl.push(HistoryPage);
+  }
+
+  //Products function
+  showConfirm(food: any) {
+    this.currentFood = food;
+    let confirm = this.alertCtrl.create({
+      title: "Do you want to order '" + this.currentFood.value.name + "'?",
+      message: this.currentFood.value.details,
+      buttons: [
+        {
+          text: 'Disagree',
+          handler: () => {
+          }
+        },
+        {
+          text: 'Agree',
+          handler: () => {
+            this.presentToast();
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
+
+  presentToast() {
+    let toast = this.toastCtrl.create({
+      message: 'Order successfully',
+      duration: 1500,
+      position: 'top'
+    });
+
+    toast.present();
+  }
+
+  // test() {
+  //   this.checkinProvider.serverGetProducts().then((res) => {
+  //     let body = JSON.parse(res._body);
+  //     let m: string[]
+  //     this.foods = this.transform(body, m);
+  //   }, (rej) => {
+  //     console.log("connect failed");
+  //   })
+  // }
+
+  // change from objects to array
+  transform(value, args: string[]): any {
+    let keys = [];
+    for (let key in value) {
+      keys.push({ key: key, value: value[key] });
+    }
+    return keys;
+  }
+  goToAboutPage() {
+    this.navCtrl.push(AboutPage);
   }
 }

@@ -6,6 +6,7 @@ import { HomePage } from '../pages/home/home';
 import { HistoryPage } from '../pages/history/history';
 import { LoadingPage } from '../pages/loading/loading';
 import { LoginPage } from '../pages/login/login';
+import { AboutPage } from '../pages/about/about';
 import { CheckinProvider } from '../providers/checkin-provider'
 
 @NgModule({
@@ -14,7 +15,8 @@ import { CheckinProvider } from '../providers/checkin-provider'
     HomePage,
     LoadingPage,
     HistoryPage,
-    LoginPage
+    LoginPage,
+    AboutPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -25,7 +27,8 @@ import { CheckinProvider } from '../providers/checkin-provider'
     HomePage,
     LoadingPage,
     HistoryPage,
-    LoginPage
+    LoginPage,
+    AboutPage
   ],
   providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler }, Storage, CheckinProvider]
 })
