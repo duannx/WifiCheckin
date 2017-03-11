@@ -61,6 +61,18 @@ export class CheckinProvider {
       .toPromise(); 
   }
 
+  serverGetProducts(): Promise<any> {
+    let body = {
+      "username": this.username,
+      "userid": this.userid,
+      "access_token": this.token, 
+      "company": this.company
+    };
+
+    return this.http.post(this.domainName + this.apiPath + "getProduct", body)
+      .toPromise(); 
+  }
+
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);
