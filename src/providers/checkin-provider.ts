@@ -11,7 +11,6 @@ export class CheckinProvider {
   domainName = "http://stark-garden-51779.herokuapp.com";
   // domainName = "http://localhost:8081";
   apiPath = "/api/v1/";
-
   token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0ODk0NjIyMjEwODJ9.yR32vv_JpzmIXvVyggoDI2-yTyEzTdFCiJTkSuwFuUA";
   username = "xuanduannguyen@gmail.com";
   userid = "-Kdj4dOp_ULO6Zj4xb_V";
@@ -32,7 +31,7 @@ export class CheckinProvider {
     header.append("company", this.company);
     header.append("check_date", date);
     return this.http.get(this.domainName + this.apiPath + "checkin", { headers: header })
-      .toPromise(); 
+      .toPromise();
   }
 
   serverCheckin(macid: string): Promise<any> {
@@ -45,7 +44,7 @@ export class CheckinProvider {
     };
 
     return this.http.post(this.domainName + this.apiPath + "checkin", body)
-      .toPromise(); 
+      .toPromise();
   }
 
   serverCheckout(macid: string): Promise<any> {
@@ -58,19 +57,19 @@ export class CheckinProvider {
     };
 
     return this.http.post(this.domainName + this.apiPath + "checkout", body)
-      .toPromise(); 
+      .toPromise();
   }
 
   serverGetProducts(): Promise<any> {
     let body = {
       "username": this.username,
       "userid": this.userid,
-      "access_token": this.token, 
+      "access_token": this.token,
       "company": this.company
     };
 
     return this.http.post(this.domainName + this.apiPath + "getProduct", body)
-      .toPromise(); 
+      .toPromise();
   }
 
   private handleError(error: any): Promise<any> {

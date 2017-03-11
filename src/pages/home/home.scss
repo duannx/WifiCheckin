@@ -122,6 +122,9 @@ page-home {
                 margin: auto;
                 color: map-get($colors, primary);
                 display: flex;
+                i {
+                    margin: 3px 5px;
+                }
             }
         }
     }
@@ -244,5 +247,11 @@ page-home {
             height: 100%;
             border-radius: 50%;
         }
+    }
+    .list-md .item-block .item-inner {
+        border-bottom: none;
+    }
+    .item-md {
+        border-bottom: 1px solid #dedede;
     }
 }
