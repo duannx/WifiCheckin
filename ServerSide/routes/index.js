@@ -21,8 +21,10 @@ router.post(apiPath + 'checkout', checkin.checkout);
 router.post(apiPath + 'history', checkin.history);
 router.post(apiPath + 'admin/history', checkin.adminHistory);
 
-router.post(apiPath + 'products/food', product.getFood);
-router.post(apiPath + 'products/drink', product.getDrink);
+// router.post(apiPath + 'products/food', product.getFood);
+// router.post(apiPath + 'products/drink', product.getDrink);
+router.post(apiPath + 'products', product.getProducts);
+
 router.post(apiPath + 'products/order', product.order);
 
 module.exports = router;
