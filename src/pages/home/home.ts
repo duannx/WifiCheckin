@@ -87,18 +87,22 @@ export class HomePage {
           this.name = val;
         })
       })
-      this.checkinProvider.serverGetProducts().then((res) => {
-        let body = JSON.parse(res._body);
-        let m: string[]
-        this.foods = this.transform(body, m);
-      }, (rej) => {
-        console.log("connect failed");
-      })
+      this.getFood();
     });
 
   }
   ngOnInit() {
 
+  }
+  getFood() {
+    this.checkinProvider.serverGetProducts().then((res) => {
+      let body = JSON.parse(res._body);
+      let m: string[]
+      this.foods = this.transform(body, m);
+    }, (rej) => {
+      console.log("connect failed");
+      this.showToast("Cannot connect to server. Please check the interet", 5000);
+    });
   }
   // Custom tab function
   ngAfterViewInit() {
@@ -218,8 +222,12 @@ export class HomePage {
   }
 
   activeTab(tab: number) {
-    if (tab == 2) this.activeTab2 = true;
+    if (tab == 2) { this.activeTab2 = true; this.getFood() };
     if (tab == 3) { this.activeTab3 = true; this.activeTab2 = true }
+    if (tab == 1) {
+      this.activeTab1 = true;
+      this.refresh();
+    }
     if (this.requestId != null && this.requestId != undefined) cancelAnimationFrame(this.requestId);
     this.scrollLeft = this.tabContent.scrollLeft;
     let acceleration = Math.abs(this.currentTab - tab);
