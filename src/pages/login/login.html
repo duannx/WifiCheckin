@@ -8,26 +8,26 @@
                 </div>
             </div>
             <div id="middle">
+
                 <div id="button1">
-                    <button ion-button full round color="primary" icon-left (click)="goToHomePage()">
+                    <button ion-button full round color="primary" icon-left (click)="loginWithFacebook()">
                       <ion-icon name="logo-facebook"></ion-icon>              
                       Login with Facebook
                     </button>
                 </div>
                 <div id="devide">
                     <div id="test">
-
                     </div>
                 </div>
                 <div id="button2">
-                    <button ion-button full round color="danger" icon-left (click)="goToHomePage()">
+                    <button ion-button full round color="danger" icon-left (click)="loginWithGoogle()">
                         <ion-icon name="logo-googleplus"></ion-icon>
                         Login with Google
                     </button>
                 </div>
             </div>
             <div id="footer">
-                <div id="innerfooter">
+                <div id="innerfooter" (click)="trylocalLogin()">
                     <p>Powered by BK-Handsome</p>
                 </div>
             </div>

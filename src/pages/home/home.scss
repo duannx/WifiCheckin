@@ -224,6 +224,16 @@ page-home {
         height: 50%;
         overflow: hidden;
         position: relative;
+        .user-name {
+            display: block;
+            width: 100%;
+            color: #FFF;
+            text-align: center;
+            font-size: 1.5em;
+            top: 10px;
+            left: 0;
+            position: absolute;
+        }
     }
     .cover {
         position: absolute;

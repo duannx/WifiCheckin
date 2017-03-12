@@ -66,11 +66,12 @@
         </div>
         <div class="tab-item-content" *ngIf="activeTab3">
             <div class="avatar-div">
+                <span class="user-name">{{name}}  </span>
                 <div class="cover">
                     <img src="assets/images/cover.jpg" alt="cover">
                 </div>
                 <div class="avatar">
-                    <img src="assets/images/avatar.png" alt="avatar">
+                    <img src="{{avatar}}" alt="avatar">
                 </div>
             </div>
             <div class="task-div">
@@ -90,6 +91,11 @@
                         <ion-label item-left>Checkin History
                         </ion-label>
                         <ion-icon item-right name="ios-arrow-forward"></ion-icon>
+                    </ion-item>
+                    <ion-item (click)="logout()">
+                        <ion-label item-left>Logout
+                        </ion-label>
+                        <ion-icon item-right name="power" color="danger"></ion-icon>
                     </ion-item>
                 </ion-list>
             </div>

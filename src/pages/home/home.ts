@@ -5,12 +5,17 @@ import { Storage } from '@ionic/storage'
 import { CheckinProvider } from '../../providers/checkin-provider';
 import { HistoryPage } from '../history/history';
 import { AboutPage } from '../about/about';
+import { LoginPage } from '../login/login';
+import { Facebook, GooglePlus } from 'ionic-native';
 declare var WifiWizard: any
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
+  //user data
+  avatar = "assets/images/avatar.png";
+  name = "";
   //loader css varible
   displayLoader = "block";
   loadingText = "Loading ...";
@@ -48,6 +53,12 @@ export class HomePage {
   private lastTouchTime: number;
   private holdDirection: number = 0; //while hold directon != 0 can not change the direction in touchmove
 
+  private firstClientX: number;
+  private lastClientX: number;
+  private firstClientY: number;
+  private lastClientY: number;
+  private nowDriection: number = 0; //1 = vertical; 2 = horizontal ; 0 = none;
+
   private requestId; //id of requestAnimationFrame
 
   private activeTab1 = true;
@@ -68,6 +79,14 @@ export class HomePage {
       StatusBar.styleDefault();
       Splashscreen.hide();
       // this.getCheckinStatus();
+      this.storage.ready().then(() => {
+        this.storage.get("useravata").then((val) => {
+          this.avatar = val;
+        })
+        this.storage.get("username").then((val) => {
+          this.name = val;
+        })
+      })
       this.checkinProvider.serverGetProducts().then((res) => {
         let body = JSON.parse(res._body);
         let m: string[]
@@ -92,13 +111,33 @@ export class HomePage {
 
     if (this.tabContent == undefined) return;
     this.tabContent.addEventListener('touchmove', (event) => {
-      event.preventDefault();
-      let distanceX = this.lastTouchX - event.touches[0].clientX;
-      cancelAnimationFrame(this.requestId);
-      this.scrollToLeft(this.tabContent.scrollLeft + distanceX, this.frameWidth / this.fpa, 100 / this.numTabs / this.fpa);
+      this.lastClientX = event.touches[0].clientX;
+      this.lastClientY = event.touches[0].clientY;
+      let distanceXAbs = Math.abs(this.lastClientX - this.firstClientX);
+      let distanceYAbs = Math.abs(this.lastClientY - this.firstClientY);
+      console.log("distanceX: ", distanceXAbs);
+      console.log("distanceY: ", distanceYAbs);
 
-      this.lastTouchX = event.touches[0].clientX;
-      this.lastTouchY = event.touches[0].clientY;
+      if (this.nowDriection == 1) {
+        return;
+      } else {
+        if (this.nowDriection == 2) {
+          event.preventDefault();
+          let distanceX = this.lastTouchX - event.touches[0].clientX;
+          cancelAnimationFrame(this.requestId);
+          this.scrollToLeft(this.tabContent.scrollLeft + distanceX, this.frameWidth / this.fpa, 100 / this.numTabs / this.fpa);
+
+          this.lastTouchX = event.touches[0].clientX;
+          this.lastTouchY = event.touches[0].clientY;
+        } else {
+          event.preventDefault();
+          (distanceXAbs - distanceYAbs) < 0 ? this.nowDriection = 1 : this.nowDriection = 2;
+        }
+      }
+
+      console.log("child scroll direction: " + this.nowDriection);
+
+
     })
 
     this.tabContent.addEventListener("touchend", (event) => {
@@ -120,6 +159,12 @@ export class HomePage {
       this.firstTouchY = event.touches[0].clientY;
       this.lastTouchY = event.touches[0].clientY;
       this.firstTouchTime = new Date().getTime();
+
+      this.firstClientX = event.touches[0].clientX;
+      this.lastClientX = event.touches[0].clientX;
+      this.firstClientY = event.touches[0].clientY;
+      this.lastClientY = event.touches[0].clientY;
+      this.nowDriection = 0;
     });
 
     let tabItemContents = <HTMLCollection>document.getElementsByClassName('tab-item-content');
@@ -356,9 +401,9 @@ export class HomePage {
       }
       default: {
         //Not yet
-        this.checkinClass = "progress-default";
-        this.checkinProgress = 0;
-        this.checkinText = "<span>Not Yet!</span>";
+        this.checkoutClass = "progress-default";
+        this.checkoutProgress = 0;
+        this.checkoutText = "<span>Pending ...</span>";
         return;
       }
     }
@@ -553,5 +598,12 @@ export class HomePage {
   }
   goToAboutPage() {
     this.navCtrl.push(AboutPage);
+  }
+
+  logout() {
+    GooglePlus.logout();
+    Facebook.logout();
+    this.storage.set("isLoggedIn", false);
+    this.navCtrl.setRoot(LoginPage);
   }
 }
