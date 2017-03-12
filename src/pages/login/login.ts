@@ -23,22 +23,7 @@ export class LoginPage {
         this.storage.get("isLoggedIn").then((data) => {
           if (data == true) this.goToHomePage();
         })
-      });
-      // Facebook.getLoginStatus().then((response) => {
-      //   console.log(response);
-      //   if (response.status == "connected") {
-      //     this.isFacebookLogin = true;
-      //     this.facebookUserId = response.authResponse.userID;
-      //     this.facebookAccessToken = response.authResponse.accessToken;
-      //     this.getFacebookInfo();
-      //   }
-      // });
-      // GooglePlus.trySilentLogin().then((success) => {
-      //   console.log("Google slent login success: ", success);
-      //   this.isGoogleLogin = true;
-      // }, (error) => {
-      //   console.log("Google slent login erre: ", error);
-      // });
+      }); 
     })
   }
   ionViewDidLoad() {
@@ -80,9 +65,9 @@ export class LoginPage {
       this.storage.set('username', success.name);
 
     if (success.hasOwnProperty('picture_small'))
-      this.storage.set('useravata', success.picture_small);
+      this.storage.set('useravata', success.picture_small.data.url);
     console.log('name', this.name);
-    console.log("picture", success.picture_small);
+    console.log("picture", success.picture_small.data.url);
   }
 
   loginWithGoogle() {

@@ -20,17 +20,6 @@ export class MyApp {
       StatusBar.styleDefault();
       Splashscreen.hide();
 
-      // this.storage.ready().then(() => {
-      //   //Check data in local storage. If null fecth data then hide loadercss. Else hide loader css then fetch data
-      //   this.storage.get("dataSettedUp").then((dataLocal) => {
-      //     if (dataLocal != null) {
-      //       //Exists data in local
-      //       this.rootPage = HomePage;
-      //     } else {
-      //       this.rootPage = LoadingPage
-      //     }
-      //   })
-      // })
     });
   }
 }

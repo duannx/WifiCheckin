@@ -82,6 +82,7 @@ export class HomePage {
       this.storage.ready().then(() => {
         this.storage.get("useravata").then((val) => {
           this.avatar = val;
+          console.log("avatar: ", this.avatar);
         })
         this.storage.get("username").then((val) => {
           this.name = val;
@@ -119,9 +120,6 @@ export class HomePage {
       this.lastClientY = event.touches[0].clientY;
       let distanceXAbs = Math.abs(this.lastClientX - this.firstClientX);
       let distanceYAbs = Math.abs(this.lastClientY - this.firstClientY);
-      console.log("distanceX: ", distanceXAbs);
-      console.log("distanceY: ", distanceYAbs);
-
       if (this.nowDriection == 1) {
         return;
       } else {
@@ -138,10 +136,6 @@ export class HomePage {
           (distanceXAbs - distanceYAbs) < 0 ? this.nowDriection = 1 : this.nowDriection = 2;
         }
       }
-
-      console.log("child scroll direction: " + this.nowDriection);
-
-
     })
 
     this.tabContent.addEventListener("touchend", (event) => {
@@ -222,6 +216,16 @@ export class HomePage {
   }
 
   activeTab(tab: number) {
+    console.log("this.tab", tab);
+    console.log("activeTab1", this.activeTab1);
+    console.log("activeTab2", this.activeTab2);
+    console.log("activeTab3", this.activeTab3);
+    console.log("this.foods", this.foods);
+    console.log("tabContent.scrollWidth: ", this.tabContent.scrollWidth);
+    console.log("tabContent.offsetWidth: ", this.tabContent.offsetWidth);
+    let tabScrollContent = document.getElementById('tab-scroll-content');
+    console.log("tabScrollContent.scrollWidth: ", tabScrollContent.scrollWidth);
+    console.log("tabScrollContent.offsetWidth: ", tabScrollContent.offsetWidth);
     if (tab == 2) { this.activeTab2 = true; this.getFood() };
     if (tab == 3) { this.activeTab3 = true; this.activeTab2 = true }
     if (tab == 1) {
@@ -230,6 +234,7 @@ export class HomePage {
     }
     if (this.requestId != null && this.requestId != undefined) cancelAnimationFrame(this.requestId);
     this.scrollLeft = this.tabContent.scrollLeft;
+    console.log("scrollLeft: ", this.scrollLeft);
     let acceleration = Math.abs(this.currentTab - tab);
     if (acceleration == 0) acceleration = 1;
     this.currentTab = tab;
@@ -239,6 +244,8 @@ export class HomePage {
   }
 
   scrollToLeft(left: number, delta: number, highlightDelta: number) {
+    console.log("scrollToLeft: ", this.tabContent.scrollLeft);
+    console.log(left + " - " + delta + " - " + highlightDelta);
     this.scrollLeft = this.tabContent.scrollLeft;
     let highlightPosition = (left / this.frameWidth) * 100 / this.numTabs; //unit %
 
@@ -538,11 +545,10 @@ export class HomePage {
         clearTimeout(progressTimeout2);
         setTimeout(this.refresh, 2000);
       })
-
     }, (e) => {
       console.log("getCurrentSSID Fail");
       this.showToast("Wifi is not enabled", 5000);
-      this.showCheckinStatus(3);
+      this.showCheckoutStatus(3);
       clearTimeout(progressTimeout1);
       clearTimeout(progressTimeout2);
       this.refresh();
