@@ -1,0 +1,26 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-title>Your company</ion-title>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+    <div *ngIf="!hasCompany" class="no-company">
+        <span class="status">You have no company!</span>
+        <div class="button-group">
+            <div class="button button-join" (click)="gotoFindCompanyPage()">
+                <span>
+                Find your company
+              </span>
+            </div>
+            <span style="display: block; width: 100%;">Or</span>
+            <div class="button button-create" (click)="gotoCreateCompanyPage()">
+                <span>
+                Create your company
+              </span>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="hasCompany" class="has-company"></div>
+</ion-content>

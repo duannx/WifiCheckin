@@ -14,11 +14,11 @@
 </div>
 <div id="tab-content">
     <div id="tab-scroll-content">
-        <div class="tab-item-content" *ngIf="activeTab1">
+        <div class="tab-item-content">
             <!--<div class="alert-div" *ngIf="showAlertText">
                 <span>{{alertText}}</span>
             </div>-->
-            <div id="checkin-div">
+            <!--<div id="checkin-div">
                 <h3 class="zone-title">
                     Check-in status:
                 </h3>
@@ -48,23 +48,46 @@
                     <div class="content" [innerHTML]="checkoutText">
                     </div>
                 </div>
+            </div>-->
+
+            <div class="checkin-div">
+                <div class="progress-bar primary" id="checkin-progress" [attr.progress]="checkinProgress"></div>
+                <span class="title">
+                    Check-in status:
+                </span>
+                <div class="status-bar">
+                    <div class="time">
+                        <span>Checking now!</span>
+                    </div>
+                    <div class="status status-danger" [innerHTML]="checkinText">
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="tab-item-content" id="products" *ngIf="activeTab2">
-            <div id="screen" style="background: #EDEDE1">
-                <div id="content">
-                    <div *ngFor='let food of foods' class="foods">
-                        <div class="img" (click)="showConfirm(food)">
-                            <img src='{{food.value.img}}'>
-                        </div>
-                        <div class="name" (click)="showConfirm(food)">{{food.value.name}}</div>
-                        <div class="price">{{food.value.price}}</div>
-                        <div class="details">{{food.value.details}}</div>
+            <div class="checkout-div">
+                <div class="progress-bar primary" id="checkout-progress" [attr.progress]="checkoutProgress"></div>
+                <span class="title">
+                    Check-out status:
+                </span>
+                <div class="status-bar">
+                    <div class="time">
+                        <span>Too early to check out now!</span>
+                    </div>
+                    <div class="status status-warning" [innerHTML]="checkoutText">
                     </div>
                 </div>
             </div>
         </div>
-        <div class="tab-item-content" *ngIf="activeTab3">
+        <div class="tab-item-content" id="products">
+            <div *ngFor='let food of foods' class="foods">
+                <div class="img" (click)="showConfirm(food)">
+                    <img src='{{food.value.img}}'>
+                </div>
+                <div class="name" (click)="showConfirm(food)">{{food.value.name}}</div>
+                <div class="price">{{food.value.price}}</div>
+                <div class="details">{{food.value.details}}</div>
+            </div>
+        </div>
+        <div class="tab-item-content">
             <div class="avatar-div">
                 <span class="user-name">{{name}}  </span>
                 <div class="cover">
@@ -77,10 +100,11 @@
             <div class="task-div">
                 <ion-list>
                     <ion-item>
-                        <ion-label>Male - Age 25</ion-label>
+                        <ion-label>Your profile</ion-label>
+                        <ion-icon item-right name="ios-arrow-forward"></ion-icon>
                     </ion-item>
-                    <ion-item (click)="goToAboutPage()">
-                        <ion-label item-left>B-Gate Corp
+                    <ion-item (click)="goToMyCompanyPage()">
+                        <ion-label item-left>Your company
                         </ion-label>
                         <ion-icon item-right name="ios-arrow-forward"></ion-icon>
                     </ion-item>
@@ -89,11 +113,22 @@
                         </ion-label>
                         <ion-icon item-right name="ios-arrow-forward"></ion-icon>
                     </ion-item>
+                    <!--<ion-item (click)="gotoManageCompany()">
+                        <ion-label item-left>Manage employees
+                        </ion-label>
+                        <ion-icon item-right name="ios-arrow-forward"></ion-icon>
+                    </ion-item>
+                    <ion-item (click)="gotoCreateCompany()">
+                        <ion-label item-left>Create company
+                        </ion-label>
+                        <ion-badge item-right>Go</ion-badge>
+                    </ion-item>-->
                     <ion-item (click)="logout()">
                         <ion-label item-left>Logout
                         </ion-label>
                         <ion-icon item-right name="power" color="danger"></ion-icon>
                     </ion-item>
+
                 </ion-list>
             </div>
         </div>

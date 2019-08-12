@@ -1,36 +1,22 @@
 <ion-content>
     <div id="body">
-        <div id="inner">
-            <div id="head">
-                <div id="content">
-                    <img alt="logoImg" class="logoImg" src="assets/images/screen.png">
-                    <img src="assets/images/wordlogo.png" alt="logoword">
-                </div>
+        <div id="head">
+            <img alt="logoImg" class="logoImg" src="assets/images/screen.png">
+            <img src="assets/images/wordlogo.png" alt="logoword" class="logoWord">
+            <div class="description"><span>Best checking solution for team and conpmany</span></div>
+        </div>
+        <div class="login-block">
+            <div class="login-button google-login" (click)="loginWithGoogle()">
+                <i class="fa fa-google" aria-hidden="true"></i>
+                <span>Login with Google</span>
             </div>
-            <div id="middle">
-
-                <div id="button1">
-                    <button ion-button full round color="primary" icon-left (click)="loginWithFacebook()">
-                      <ion-icon name="logo-facebook"></ion-icon>              
-                      Login with Facebook
-                    </button>
-                </div>
-                <div id="devide">
-                    <div id="test">
-                    </div>
-                </div>
-                <div id="button2">
-                    <button ion-button full round color="danger" icon-left (click)="loginWithGoogle()">
-                        <ion-icon name="logo-googleplus"></ion-icon>
-                        Login with Google
-                    </button>
-                </div>
+            <div class="login-button facebook-login" (click)="loginWithFacebook()">
+                <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                <span>Login with Facebook</span>
             </div>
-            <div id="footer">
-                <div id="innerfooter" (click)="trylocalLogin()">
-                    <p>Powered by BK-Handsome</p>
-                </div>
-            </div>
+        </div>
+        <div id="footer" (click)="trylocalLogin()">
+            <span>Powered by B-Gate Corp</span>
         </div>
     </div>
 </ion-content>

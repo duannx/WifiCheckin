@@ -1,0 +1,38 @@
+page-create-company {
+    .wifi-item {
+        width: 100%;
+        padding-left: 16px;
+        padding-top: 15px;
+        position: relative;
+        label {
+            font-size: .8em;
+            font-weight: bold;
+            color: #999;
+        }
+        input {
+            margin-left: 0;
+            width: 100%;
+            padding: 8px;
+            opacity: .8;
+            margin: 8px 0;
+        }
+        i {
+            transform: rotate(0deg);
+            transition: all 1s;
+        }
+    }
+    .alert-message {
+        width: 100%;
+        text-align: center;
+        padding: 5px 15px;
+    }
+    #btn-refresh {
+        position: absolute;
+        right: 0;
+        bottom: 5px;
+        padding: 10px;
+    }
+    .roltated {
+        transform: rotate(180deg) !important;
+    }
+}

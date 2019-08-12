@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
-import { Platform, ToastController, NavController, AlertController } from 'ionic-angular';
-import { StatusBar, Splashscreen } from 'ionic-native';
+import { Platform, ToastController, NavController, AlertController, NavParams } from 'ionic-angular';
+import { StatusBar, Splashscreen, Facebook, GooglePlus } from 'ionic-native';
+
 import { Storage } from '@ionic/storage'
 import { CheckinProvider } from '../../providers/checkin-provider';
 import { HistoryPage } from '../history/history';
 import { AboutPage } from '../about/about';
 import { LoginPage } from '../login/login';
-import { Facebook, GooglePlus } from 'ionic-native';
+import { CreateCompanyPage } from '../create-company/create-company';
+import { ManageEmployeePage } from '../manage-employee/manage-employee';
+import { MyCompanyPage } from '../my-company/my-company';
 declare var WifiWizard: any
 @Component({
   selector: 'page-home',
@@ -20,7 +23,7 @@ export class HomePage {
   displayLoader = "block";
   loadingText = "Loading ...";
   //Product varible
-  foods: any;
+  foods: any = [];
   currentFood: any;
   //check in varible
   currentDate = "";
@@ -33,7 +36,7 @@ export class HomePage {
   checkinText = "<span>Not Yet!</span>";
   checkoutText = "<span>Pending...</span>";
   alertText = "";
-  showAlertText = false;
+  showAlertText = false; 
   // Custom tab varible
   private numTabs = 3;
   private currentTab = 1;
@@ -42,7 +45,7 @@ export class HomePage {
   private frameWidth = 360;
   private frameHeight = 640;
   private scrollLeft = 0;
-  private fpa = 15; //frame per animate
+  private fpa = 10; //frame per animate
 
   private firstTouchX: number;
   private lastTouchX: number;
@@ -62,23 +65,25 @@ export class HomePage {
   private requestId; //id of requestAnimationFrame
 
   private activeTab1 = true;
-  private activeTab2 = false;
-  private activeTab3 = false;
+  private activeTab2 = true;
+  private activeTab3 = true;
   //End Custom tab varible
 
-  constructor(platform: Platform, public toastCtrl: ToastController, public navCtrl: NavController, public storage: Storage, public checkinProvider: CheckinProvider, public alertCtrl: AlertController) {
+  constructor(platform: Platform, public toastCtrl: ToastController, public navCtrl: NavController,
+    public storage: Storage, public checkinProvider: CheckinProvider, public alertCtrl: AlertController,
+    public navParams: NavParams) {
     let date = new Date();
     this.currentDate = date.getDate() + "_" + date.getMonth() + "_" + date.getFullYear();
+
     platform.ready().then(() => {
-      setTimeout(() => {
-        this.activeTab2 = true;
-      }, 5000);
-      setTimeout(() => {
-        this.activeTab3 = true;
-      }, 10000);
+      let praActiveTab = this.navParams.get('actieTab');
+      if (praActiveTab != null && praActiveTab > 0) {
+        this.activeTab(praActiveTab);
+      }
+
       StatusBar.styleDefault();
       Splashscreen.hide();
-      // this.getCheckinStatus();
+
       this.storage.ready().then(() => {
         this.storage.get("useravata").then((val) => {
           this.avatar = val;
@@ -88,7 +93,7 @@ export class HomePage {
           this.name = val;
         })
       })
-      this.getFood();
+
     });
 
   }
@@ -96,6 +101,7 @@ export class HomePage {
 
   }
   getFood() {
+    if (this.foods.length > 0) return;
     this.checkinProvider.serverGetProducts().then((res) => {
       let body = JSON.parse(res._body);
       let m: string[]
@@ -116,26 +122,36 @@ export class HomePage {
 
     if (this.tabContent == undefined) return;
     this.tabContent.addEventListener('touchmove', (event) => {
-      this.lastClientX = event.touches[0].clientX;
-      this.lastClientY = event.touches[0].clientY;
-      let distanceXAbs = Math.abs(this.lastClientX - this.firstClientX);
-      let distanceYAbs = Math.abs(this.lastClientY - this.firstClientY);
-      if (this.nowDriection == 1) {
-        return;
-      } else {
-        if (this.nowDriection == 2) {
-          event.preventDefault();
-          let distanceX = this.lastTouchX - event.touches[0].clientX;
-          cancelAnimationFrame(this.requestId);
-          this.scrollToLeft(this.tabContent.scrollLeft + distanceX, this.frameWidth / this.fpa, 100 / this.numTabs / this.fpa);
+      // this.lastClientX = event.touches[0].clientX;
+      // this.lastClientY = event.touches[0].clientY;
+      // let distanceXAbs = Math.abs(this.lastClientX - this.firstClientX);
+      // let distanceYAbs = Math.abs(this.lastClientY - this.firstClientY);
+      // if (this.nowDriection == 1) {
+      //   console.log("nowDriection", this.nowDriection);
+      //   let thisElm = <HTMLDivElement>event.currentTarget;
+      //   this.scrollToTop(thisElm, thisElm.scrollTop + this.lastClientY - this.firstClientY, this.frameHeight / this.fpa);
+      //   return;
+      // } else {
+      //   if (this.nowDriection == 2) {
+      //     event.preventDefault();
+      //     let distanceX = this.lastTouchX - event.touches[0].clientX;
+      //     cancelAnimationFrame(this.requestId);
+      //     this.scrollToLeft(this.tabContent.scrollLeft + distanceX, this.frameWidth / this.fpa, 100 / this.numTabs / this.fpa);
 
-          this.lastTouchX = event.touches[0].clientX;
-          this.lastTouchY = event.touches[0].clientY;
-        } else {
-          event.preventDefault();
-          (distanceXAbs - distanceYAbs) < 0 ? this.nowDriection = 1 : this.nowDriection = 2;
-        }
-      }
+      //     this.lastTouchX = event.touches[0].clientX;
+      //     this.lastTouchY = event.touches[0].clientY;
+      //   } else {
+      //     event.preventDefault();
+      //     (distanceXAbs - distanceYAbs) < 0 ? this.nowDriection = 1 : this.nowDriection = 2;
+      //   }
+      // }
+      event.preventDefault();
+      let distanceX = this.lastTouchX - event.touches[0].clientX;
+      cancelAnimationFrame(this.requestId);
+      this.scrollToLeft(this.tabContent.scrollLeft + distanceX, this.frameWidth / this.fpa, 100 / this.numTabs / this.fpa);
+
+      this.lastTouchX = event.touches[0].clientX;
+      this.lastTouchY = event.touches[0].clientY;
     })
 
     this.tabContent.addEventListener("touchend", (event) => {
@@ -169,7 +185,7 @@ export class HomePage {
     for (let i = 0; i < tabItemContents.length; i++) {
       let tabItemContent = <HTMLDivElement>tabItemContents[i];
       tabItemContent.addEventListener("touchmove", (event) => {
-        event.preventDefault();
+        event.preventDefault(); 
         if (this.holdDirection == 2) {
           this.direction = this.holdDirection;
           return
@@ -215,26 +231,12 @@ export class HomePage {
     }
   }
 
-  activeTab(tab: number) {
-    console.log("this.tab", tab);
-    console.log("activeTab1", this.activeTab1);
-    console.log("activeTab2", this.activeTab2);
-    console.log("activeTab3", this.activeTab3);
-    console.log("this.foods", this.foods);
-    console.log("tabContent.scrollWidth: ", this.tabContent.scrollWidth);
-    console.log("tabContent.offsetWidth: ", this.tabContent.offsetWidth);
-    let tabScrollContent = document.getElementById('tab-scroll-content');
-    console.log("tabScrollContent.scrollWidth: ", tabScrollContent.scrollWidth);
-    console.log("tabScrollContent.offsetWidth: ", tabScrollContent.offsetWidth);
-    if (tab == 2) { this.activeTab2 = true; this.getFood() };
-    if (tab == 3) { this.activeTab3 = true; this.activeTab2 = true }
-    if (tab == 1) {
-      this.activeTab1 = true;
-      this.refresh();
-    }
+  activeTab(tab: number) { 
+    let tabScrollContent = document.getElementById('tab-scroll-content'); 
+    if (tab == 2) { this.getFood() };
+    if (tab == 1) { this.refresh(); }
     if (this.requestId != null && this.requestId != undefined) cancelAnimationFrame(this.requestId);
-    this.scrollLeft = this.tabContent.scrollLeft;
-    console.log("scrollLeft: ", this.scrollLeft);
+    this.scrollLeft = this.tabContent.scrollLeft; 
     let acceleration = Math.abs(this.currentTab - tab);
     if (acceleration == 0) acceleration = 1;
     this.currentTab = tab;
@@ -243,9 +245,7 @@ export class HomePage {
     this.setClassActive();
   }
 
-  scrollToLeft(left: number, delta: number, highlightDelta: number) {
-    console.log("scrollToLeft: ", this.tabContent.scrollLeft);
-    console.log(left + " - " + delta + " - " + highlightDelta);
+  scrollToLeft(left: number, delta: number, highlightDelta: number) { 
     this.scrollLeft = this.tabContent.scrollLeft;
     let highlightPosition = (left / this.frameWidth) * 100 / this.numTabs; //unit %
 
@@ -300,20 +300,13 @@ export class HomePage {
 
   //End custom tab function
 
-  showToast(message: string, duration: number) {
-    let toast = this.toastCtrl.create({
-      message: message,
-      duration: duration,
-      position: "top"
-    })
-    toast.present();
-  }
-
   //Run first 
   ionViewDidEnter() {
-    console.log("HomePage ionViewDidEnter")
+    console.log("HomePage ionViewDidEnter");
     this.refresh();
+    this.getFood();
   }
+
   refresh() {
     this.storage.ready().then(() => {
       this.checkinProvider.localGetCheckinStatus().then((localData) => {
@@ -321,43 +314,49 @@ export class HomePage {
           //Exists data in local and data is up to date  
           this.checkinData = localData;
           if (this.checkinData.checkInTime > 0) {
+            //Checked in
             this.showCheckinStatus(1);
+          } else {
+            //Not checked in
+            this.doCheckin()
           }
           if (this.checkinData.checkOutTime > 0) {
+            //Checked out
             this.showCheckoutStatus(1);
           }
           console.log("Exists local data: ", localData);
         } else {
-          console.log("Not exists local data");
+          // Not Exits local data 
+          this.doCheckin();
         }
 
-        this.checkinProvider.serverGetCheckinStatus(this.currentDate).then(
-          (data) => {
-            let body = JSON.parse(data._body);
-            if (body.code == 1) {
-              //No data in server
-              this.checkinData.checkInTime = 0;
-              this.checkinData.checkOutTime = 0;
-              this.checkinData.today = "";
-              this.storage.set("todayCheckedin", this.checkinData);
-              this.showCheckinStatus(4);
-              this.showCheckoutStatus(4);
-            } else {
-              //Existing data in server
-              this.checkinData.checkInTime = body.checkInTime;
-              this.checkinData.checkOutTime = body.checkOutTime;
-              this.checkinData.today = this.currentDate;
-              if (body.checkInTime > 0) this.showCheckinStatus(1);
-              if (body.checkOutTime > 0) this.showCheckoutStatus(1);
-              //store in to local
-              this.storage.set("todayCheckedin", this.checkinData);
-              console.log("Data update successfully", data);
-            }
-          }, (error) => {
-            this.showToast("Could not connect to server. Please check the internet. ", 5000);
-            console.log("Could not connect to server. Please check the internet. " + error);
-          }
-        )
+        // this.checkinProvider.serverGetCheckinStatus(this.currentDate).then(
+        //   (data) => {
+        //     let body = JSON.parse(data._body);
+        //     if (body.code == 1) {
+        //       //No data in server
+        //       this.checkinData.checkInTime = 0;
+        //       this.checkinData.checkOutTime = 0;
+        //       this.checkinData.today = "";
+        //       this.storage.set("todayCheckedin", this.checkinData);
+        //       this.showCheckinStatus(4);
+        //       this.showCheckoutStatus(4);
+        //     } else {
+        //       //Existing data in server
+        //       this.checkinData.checkInTime = body.checkInTime;
+        //       this.checkinData.checkOutTime = body.checkOutTime;
+        //       this.checkinData.today = this.currentDate;
+        //       if (body.checkInTime > 0) this.showCheckinStatus(1);
+        //       if (body.checkOutTime > 0) this.showCheckoutStatus(1);
+        //       //store in to local
+        //       this.storage.set("todayCheckedin", this.checkinData);
+        //       console.log("Data update successfully", data);
+        //     }
+        //   }, (error) => {
+        //     this.showToast("Could not connect to server. Please check the internet. ", 5000);
+        //     console.log("Could not connect to server. Please check the internet. " + error);
+        //   }
+        // )
       })
     })
   }
@@ -365,28 +364,53 @@ export class HomePage {
     switch (mode) {
       case 1: {
         //Checked in
-        this.checkinClass = "progress-primary";
-        this.checkinProgress = 100;
+        this.checkinClass = "primary";
+        let intervalVarible = setInterval(() => {
+          if (this.checkinProgress >= 100) {
+            clearInterval(intervalVarible);
+          } else {
+            this.checkinProgress++;
+          }
+        }, 20);
         this.checkinText = "<span>Checked in <i class=\"fa fa-check-circle\"></i></span>";
         return;
       }
       case 2: {
         //Checking ...
-        this.checkinClass = "progress-secondary";
+        this.checkinClass = "primary";
+        let intervalVarible = setInterval(() => {
+          if (this.checkinProgress >= 75) {
+            clearInterval(intervalVarible);
+          } else {
+            this.checkinProgress++;
+          }
+        }, 20);
         this.checkinText = "<span>Checking ...</span>";
         return;
       }
       case 3: {
         //Failed
-        this.checkinClass = "progress-danger";
-        this.checkinProgress = 100;
+        this.checkinClass = "danger";
+        let intervalVarible = setInterval(() => {
+          if (this.checkinProgress >= 100) {
+            clearInterval(intervalVarible);
+          } else {
+            this.checkinProgress++;
+          }
+        }, 20);
         this.checkinText = "<span>Failed <i class=\"fa fa-exclamation-circle\"></i></span>";
         return;
       }
       default: {
         //Not yet
-        this.checkinClass = "progress-default";
-        this.checkinProgress = 0;
+        this.checkinClass = "warning";
+        let intervalVarible = setInterval(() => {
+          if (this.checkinProgress >= 100) {
+            clearInterval(intervalVarible);
+          } else {
+            this.checkinProgress++;
+          }
+        }, 20);
         this.checkinText = "<span>Not Yet!</span>";
         return;
       }
@@ -424,15 +448,10 @@ export class HomePage {
     }
   }
   doCheckin() {
-    this.showCheckinStatus(2);
-    this.checkinProgress = 0;
-    let progressTimeout1 = setTimeout(() => { this.checkinProgress = 60 }, 2000);
-    let progressTimeout2 = setTimeout(() => { this.checkinProgress = 80 }, 5000);
-    WifiWizard.getCurrentSSID((e) => {
+    this.showCheckinStatus(2); 
+    WifiWizard.getCurrentBSSID((e) => {
       console.log("getCurrentSSID success", e);
-      this.checkinProvider.serverCheckin(e).then((res) => {
-        clearTimeout(progressTimeout1);
-        clearTimeout(progressTimeout2);
+      this.checkinProvider.serverCheckin(e).then((res) => { 
         let body = JSON.parse(res._body);
         switch (body.code) {
           case 1: {
@@ -446,8 +465,7 @@ export class HomePage {
             this.checkinData.today = body.today;
             //Sotore data to local
             this.storage.set("todayCheckedin", this.checkinData);
-            console.log("Checked in successfully");
-            console.log("Checkin progress", this.checkinProgress);
+            console.log("Checked in successfully", body); 
             break;
           }
           case 3: {
@@ -475,18 +493,13 @@ export class HomePage {
       }, (error) => {
         console.log("Could not connect to server. Please check the internet. " + error);
         this.showToast("Could not connect to server. Please check the internet.", 5000);
-        this.showCheckinStatus(3);
-        clearTimeout(progressTimeout1);
-        clearTimeout(progressTimeout2);
-        setTimeout(this.refresh, 2000);
+        this.showCheckinStatus(3);  
       })
 
     }, (e) => {
       console.log("getCurrentSSID Fail");
       this.showToast("Wifi is not enabled", 5000);
-      this.showCheckinStatus(3);
-      clearTimeout(progressTimeout1);
-      clearTimeout(progressTimeout2);
+      this.showCheckinStatus(3); 
       this.refresh();
     });
   }
@@ -496,7 +509,7 @@ export class HomePage {
     this.checkoutProgress = 0;
     let progressTimeout1 = setTimeout(() => { this.checkoutProgress = 60 }, 2000);
     let progressTimeout2 = setTimeout(() => { this.checkoutProgress = 80 }, 5000);
-    WifiWizard.getCurrentSSID((e) => {
+    WifiWizard.getCurrentBSSID((e) => {
       console.log("getCurrentSSID success", e);
       this.checkinProvider.serverCheckout(e).then((res) => {
         clearTimeout(progressTimeout1);
@@ -559,6 +572,16 @@ export class HomePage {
     this.navCtrl.push(HistoryPage);
   }
 
+
+  showToast(message: string, duration: number) {
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: duration,
+      position: "top"
+    })
+    toast.present();
+  }
+
   //Products function
   showConfirm(food: any) {
     this.currentFood = food;
@@ -614,6 +637,15 @@ export class HomePage {
     this.navCtrl.push(AboutPage);
   }
 
+  gotoCreateCompany() {
+    this.navCtrl.push(CreateCompanyPage);
+  }
+  goToMyCompanyPage() {
+    this.navCtrl.push(MyCompanyPage);
+  }
+  gotoManageCompany() {
+    this.navCtrl.push(ManageEmployeePage);
+  }
   logout() {
     GooglePlus.logout();
     Facebook.logout();

@@ -1,0 +1,35 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-title>Manage employees</ion-title>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+
+    <ion-list>
+        <ion-list-header>
+            <ion-label item-left>Employee list</ion-label>
+            <ion-badge item-right (click)="showAddEmployeeAlert()">Add</ion-badge>
+        </ion-list-header>
+        <ion-item-sliding #itemSliding *ngFor="let employee of employees">
+            <ion-item #item class="yyy">
+                <ion-avatar item-left>
+                    <img src="https://freeiconshop.com/wp-content/uploads/edd/person-flat.png">
+                </ion-avatar>
+                <ion-label>{{employee}}</ion-label>
+                <span class="action-button" (click)="open(itemSliding,item)" item-right>Action</span>
+            </ion-item>
+            <ion-item-options side="right">
+                <button ion-button color="primary">
+                  <ion-icon name="eye"></ion-icon>
+                  View
+                </button>
+                <button ion-button color="danger">
+                  <ion-icon name="close"></ion-icon>
+                  Delete
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
+</ion-content>

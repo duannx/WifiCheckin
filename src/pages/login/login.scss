@@ -2,103 +2,66 @@ page-login {
     #body {
         width: 100%;
         height: 100%;
-        background-color: #614545;
-    }
-    #body::before {
-        content: ' ';
-        width: 100%;
-        height: 100%;
-        background-image: url('https://firebasestorage.googleapis.com/v0/b/team-check-in-app.appspot.com/o/loginBackground.jpg?alt=media&token=c0cff37d-29a3-4ded-b6b8-f8a2f973f505');
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
-        opacity: .3;
-        position: absolute;
-        top: 0;
-        left: 0;
-    }
-    #inner {
-        margin: auto;
-        height: 100%;
-        width: 80%;
-        //    background-color: red;
+        background-color: rgba(52, 116, 225, 0.48);
+        overflow: hidden;
     }
     #head {
         width: 100%;
-        height: 50%;
+        height: 60%;
         text-align: center;
-        display: flex;
-        flex-direction: column;
     }
-    #content {
+    .description {
+        color: #FFF;
+        margin-top: 20px;
+    }
+    .logoImg {
+        margin: 40px 0 20px 0;
+        width: 50%;
+    }
+    .logoWord {
+        width: 60%;
+    }
+    .login-block {
         width: 100%;
-        margin: auto;
-        display: flex;
-        flex-direction: column;
-        img {
-            width: 15em;
-            height: 100%;
-            margin: 0 auto;
-            z-index: 10;
+        height: 40%;
+        text-align: center;
+    }
+    .login-button {
+        width: 85%;
+        height: 45px;
+        line-height: 45px;
+        border: solid 1px #FFF;
+        border-radius: 5px;
+        margin: 10px auto;
+        background-color: #FFF;
+        text-align: left;
+        display: table;
+        i {
+            width: 40px;
+            text-align: center;
+            font-size: 1.3em;
         }
-        .logoImg {
-            width: 12em;
+        span {
+            width: calc(100% - 40px);
+            text-align: center;
+            display: block;
+            float: right;
         }
     }
-    #middle {
-        width: 100%;
-        height: 30%;
+    .google-login i {
+        color: #F00;
     }
-    #button1 {
-        margin: auto;
-        width: 95%;
-        height: 30%;
-        // background-image: url('/assets/image/LogFB.png');
-        // background-size: 100% 100%;
-        // background-repeat: no-repeat;
+    .facebook-login i {
+        color: map-get($colors, primary);
     }
     #footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        color: #FFF;
+        text-align: center;
         width: 100%;
-        height: 20%;
-        display: flex;
-    }
-    #innerfooter {
-        width: 100%;
-        height: 30%;
-        margin: auto;
-        display: flex;
-        p {
-            margin: auto;
-            text-align: center;
-            color: #FFF;
-            z-index: 10;
-        }
-    }
-    #devide {
-        margin: auto;
-        width: 80%;
-        height: 25%;
-        display: flex;
-    }
-    #test {
-        margin: auto;
-        width: 80%;
-        height: 30%;
-        background-image: url('assets/images/or.png');
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
-    }
-    #button2 {
-        margin: auto;
-        width: 95%;
-        height: 30%;
-        // background-image: url('/assets/image/LogGG.png');
-        // background-size: 100% 100%;
-        // background-repeat: no-repeat;
-    }
-    .disable-hover {
-        height: 100%;
-    }
-    .button-inner {
-        font-size: 120%;
+        height: 40px;
+        line-height: 40px;
     }
 }

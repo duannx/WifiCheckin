@@ -64,147 +64,205 @@ page-home {
     }
     // end custom tab
     //Circle progress
-    $circle-progress-size: 12em;
-    $increment: 180/100;
-    $gradient-primary-color:radial-gradient(#8da9da, map-get($colors, primary));
-    $gradient-secondary-color:radial-gradient(#8da9da, map-get($colors, secondary));
-    $gradient-danger-color:radial-gradient(yellow, map-get($colors, danger));
-    $default-color: radial-gradient(#FFF, #999);
-    .circle-progress {
-        position: relative;
-        width: $circle-progress-size;
-        height: $circle-progress-size;
-        border-radius: 50%;
-        overflow: hidden;
-        // border: map-get($colors, primary) solid 1px;
-        background-image: $default-color;
-        .half,
-        .fill {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            border-radius: 50%;
-            transition: 2s;
-        }
-        .left {
-            clip: rect(0, $circle-progress-size/2, $circle-progress-size, 0);
-            .fill {
-                transform: rotate( 180deg)
-            }
-        }
-        .right {
-            clip: rect(0, $circle-progress-size, $circle-progress-size, $circle-progress-size/2);
-            .fill {
-                transform: rotate( 0deg)
-            }
-        }
-        .bottom {
-            clip: rect($circle-progress-size/2, $circle-progress-size, $circle-progress-size, 0);
-            .fill {
-                transform: rotate( 90deg)
-            }
-        }
-        .fill {
-            background-image: $gradient-primary-color;
-            clip: rect(0, $circle-progress-size/2, $circle-progress-size, 0);
-        }
-        .content {
-            position: absolute;
-            top: $circle-progress-size/10;
-            left: $circle-progress-size/10;
-            width: $circle-progress-size*8/10;
-            height: $circle-progress-size*8/10;
-            display: flex;
-            border-radius: 50%;
-            background-color: #ddd;
-            box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.2);
-            span {
-                margin: auto;
-                color: map-get($colors, primary);
-                display: flex;
-                i {
-                    margin: 3px 5px;
-                }
-            }
-        }
-    }
-    @for $i from 0 through 100 {
-        .circle-progress[data-progress="#{$i}"] {
-            .left,
-            .left .fill {
-                transform: rotate(180 + $i*$increment + deg);
-            }
-            .right .fill {
-                transform: rotate($i*$increment + deg);
-            }
-            .right .fill.fix {
-                transform: rotate($i*$increment*2 + deg);
-            }
-        }
-    }
-    .circle-progress.progress-default {
-        .content {
-            background-color: #000;
-            color: #FFF;
-            * {
-                color: #FFF;
-            }
-        }
-    }
-    .circle-progress.progress-primary {
-        background-image: $default-color;
-        .content {
-            background-color: #FFF;
-        }
-        .content * {
-            color: map-get($colors, primary);
-        }
-        .fill {
-            background-image: $gradient-primary-color;
-        }
-    }
-    .circle-progress.progress-secondary {
-        background-image: $default-color;
-        .content {
-            background-color: #FFF;
-        }
-        .content * {
-            color: map-get($colors, secondary);
-        }
-        .fill {
-            background-image: $gradient-secondary-color;
-        }
-    }
-    .circle-progress.progress-danger {
-        background-image: $default-color;
-        .content {
-            background-color: #FFF;
-        }
-        .content * {
-            color: map-get($colors, danger);
-        }
-        .fill {
-            background-image: $gradient-danger-color;
-        }
-    }
+    // $circle-progress-size: 12em;
+    // $increment: 180/100;
+    // $gradient-primary-color:radial-gradient(#8da9da, map-get($colors, primary));
+    // $gradient-secondary-color:radial-gradient(#8da9da, map-get($colors, secondary));
+    // $gradient-danger-color:radial-gradient(yellow, map-get($colors, danger));
+    // $default-color: radial-gradient(#FFF, #999);
+    // .circle-progress {
+    //     position: relative;
+    //     width: $circle-progress-size;
+    //     height: $circle-progress-size;
+    //     border-radius: 50%;
+    //     overflow: hidden;
+    //     // border: map-get($colors, primary) solid 1px;
+    //     background-image: $default-color;
+    //     .half,
+    //     .fill {
+    //         width: 100%;
+    //         height: 100%;
+    //         position: absolute;
+    //         border-radius: 50%;
+    //         transition: 2s;
+    //     }
+    //     .left {
+    //         clip: rect(0, $circle-progress-size/2, $circle-progress-size, 0);
+    //         .fill {
+    //             transform: rotate( 180deg)
+    //         }
+    //     }
+    //     .right {
+    //         clip: rect(0, $circle-progress-size, $circle-progress-size, $circle-progress-size/2);
+    //         .fill {
+    //             transform: rotate( 0deg)
+    //         }
+    //     }
+    //     .bottom {
+    //         clip: rect($circle-progress-size/2, $circle-progress-size, $circle-progress-size, 0);
+    //         .fill {
+    //             transform: rotate( 90deg)
+    //         }
+    //     }
+    //     .fill {
+    //         background-image: $gradient-primary-color;
+    //         clip: rect(0, $circle-progress-size/2, $circle-progress-size, 0);
+    //     }
+    //     .content {
+    //         position: absolute;
+    //         top: $circle-progress-size/10;
+    //         left: $circle-progress-size/10;
+    //         width: $circle-progress-size*8/10;
+    //         height: $circle-progress-size*8/10;
+    //         display: flex;
+    //         border-radius: 50%;
+    //         background-color: #ddd;
+    //         box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.2);
+    //         span {
+    //             margin: auto;
+    //             color: map-get($colors, primary);
+    //             display: flex;
+    //             i {
+    //                 margin: 3px 5px;
+    //             }
+    //         }
+    //     }
+    // }
+    // @for $i from 0 through 100 {
+    //     .circle-progress[data-progress="#{$i}"] {
+    //         .left,
+    //         .left .fill {
+    //             transform: rotate(180 + $i*$increment + deg);
+    //         }
+    //         .right .fill {
+    //             transform: rotate($i*$increment + deg);
+    //         }
+    //         .right .fill.fix {
+    //             transform: rotate($i*$increment*2 + deg);
+    //         }
+    //     }
+    // }
+    // .circle-progress.progress-default {
+    //     .content {
+    //         background-color: #000;
+    //         color: #FFF;
+    //         * {
+    //             color: #FFF;
+    //         }
+    //     }
+    // }
+    // .circle-progress.progress-primary {
+    //     background-image: $default-color;
+    //     .content {
+    //         background-color: #FFF;
+    //     }
+    //     .content * {
+    //         color: map-get($colors, primary);
+    //     }
+    //     .fill {
+    //         background-image: $gradient-primary-color;
+    //     }
+    // }
+    // .circle-progress.progress-secondary {
+    //     background-image: $default-color;
+    //     .content {
+    //         background-color: #FFF;
+    //     }
+    //     .content * {
+    //         color: map-get($colors, secondary);
+    //     }
+    //     .fill {
+    //         background-image: $gradient-secondary-color;
+    //     }
+    // }
+    // .circle-progress.progress-danger {
+    //     background-image: $default-color;
+    //     .content {
+    //         background-color: #FFF;
+    //     }
+    //     .content * {
+    //         color: map-get($colors, danger);
+    //     }
+    //     .fill {
+    //         background-image: $gradient-danger-color;
+    //     }
+    // }
     //End circle progress
     #my-tab {
         z-index: 101
     }
-    .circle-progress {
-        margin: 10px auto;
-    }
     ion-content {
         background-color: map-get($colors, light) !important;
     }
-    #checkin-div {
-        margin-top: 10px;
-        padding: 15px;
+    .checkin-div,
+    .checkout-div {
         width: 100%;
+        min-height: 30%;
+        padding: 20px 15px;
     }
-    #checkout-div {
-        padding: 15px;
-        margin-top: 10px;
+    .progress-bar {
+        width: 100%;
+        height: 10px;
+        background-color: #ddd;
+        padding: 2px;
+        border-radius: 5px;
+    }
+    .progress-bar::after {
+        content: ' ';
+        display: block;
+        width: 0%;
+        height: 100%;
+        border-radius: 5px 0 0 5px;
+    }
+    .progress-bar.primary::after {
+        background-color: map-get($colors, primary);
+    }
+    .progress-bar.danger::after {
+        background-color: map-get($colors, danger);
+    }
+    .progress-bar.warning::after {
+        background-color: map-get($colors, warning);
+    }
+    @for $i from 1 through 100 {
+        .progress-bar[progress="#{$i}"]::after {
+            width: $i+%;
+        }
+    }
+    .progress-bar[progress="100"]::after {
+        border-radius: 5px !important;
+    }
+    .title {
+        margin: 10px 0;
+        display: block;
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+    .status-bar {
+        width: 100%;
+        min-height: 40px;
+        padding: 10px 0;
+    }
+    .time {
+        width: 80%;
+        height: 100%;
+        float: left;
+    }
+    .status {
+        width: 20%;
+        height: 100%;
+        float: left;
+    }
+    .status-danger {
+        color: #F00;
+    }
+    .status-warning {
+        color: #FD0;
+    }
+    .status-primary {
+        color: map-get($colors, primary);
+    }
+    .status-secondary {
+        color: map-get($colors, secondary);
     }
     .alert-div {
         padding: 10px;
@@ -303,11 +361,6 @@ page-home {
             height: 2%;
             text-align: center;
         }
-        #screen {
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
         #header {
             height: 60px;
             width: 100%;
@@ -322,17 +375,6 @@ page-home {
             height: 80%;
             margin: auto;
             display: flex;
-        }
-        #content {
-            height: 100%;
-            width: 100%;
-            // padding-top: 60px;
-            overflow: auto;
-            ion-slide {
-                background: #EDEDE1;
-                align-items: baseline;
-                overflow: auto;
-            }
         }
         .foods {
             margin-bottom: 10px;

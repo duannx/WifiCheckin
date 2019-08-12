@@ -1,0 +1,24 @@
+page-find-company {
+    #search {
+        width: 100%;
+        line-height: 20px;
+        padding: 5px 10px;
+        margin: 10px auto;
+        border: solid 1px map-get($colors, primary);
+    }
+    .item-md {
+        padding-left: 0;
+        border-bottom: 1px solid #ddd;
+    }
+    .list-md .item-block .item-inner {
+        border-bottom: none !important;
+        padding-right: 0 !important;
+    }
+    .loading {
+        text-align: center;
+        padding: 10px;
+        i {
+            font-size: 1.5em;
+        }
+    }
+}

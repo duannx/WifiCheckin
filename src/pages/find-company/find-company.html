@@ -1,0 +1,32 @@
+<ion-header>
+
+    <ion-navbar color="primary">
+        <ion-title>Find your company</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <input type="text" id="search" placeholder="Enter your company name">
+    <div class="loading" *ngIf="loading">
+        <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+    </div>
+    <ion-list *ngIf="loading">
+        <ion-item (click)="gotoCompanyPage()">
+            <ion-label item-left>B-Gate corp
+            </ion-label>
+            <ion-icon item-right name="ios-arrow-forward"></ion-icon>
+        </ion-item>
+        <ion-item (click)="gotoCompanyPage()">
+            <ion-label item-left>Google
+            </ion-label>
+            <ion-icon item-right name="ios-arrow-forward"></ion-icon>
+        </ion-item>
+        <ion-item (click)="gotoCompanyPage()">
+            <ion-label item-left>Facebook
+            </ion-label>
+            <ion-icon item-right name="ios-arrow-forward"></ion-icon>
+        </ion-item>
+    </ion-list>
+</ion-content>

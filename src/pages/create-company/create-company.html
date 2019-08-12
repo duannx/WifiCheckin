@@ -1,0 +1,44 @@
+<ion-header>
+
+    <ion-navbar color="primary">
+        <ion-title>Create your company</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+    <ion-list>
+        <ion-item>
+            <ion-label floating>Company name </ion-label>
+            <ion-input type="text" [(ngModel)]="companyName" value=""></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>Adress </ion-label>
+            <ion-input type="text" [(ngModel)]="adress" value=""></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>Company size </ion-label>
+            <ion-select [(ngModel)]="compnaySize">
+                <ion-option value="1">1 - 20 persons</ion-option>
+                <ion-option value="2">20 - 50 persons</ion-option>
+                <ion-option value="3">50 - 100 persons</ion-option>
+                <ion-option value="4">Over 100 persons</ion-option>
+            </ion-select>
+        </ion-item>
+        <div class="wifi-item">
+            <label>Wifi</label>
+            <input type="text" value="{{wifiName}}" disabled id="txtWifi" />
+            <button ion-button icon-only (click)="refresWifi()" id="btn-refresh" color="primary">
+                <i class="fa fa-refresh" id="icon-refresh" aria-hidden="true"></i>
+            </button>
+        </div>
+        <ion-item text-center>
+            <button ion-button round color="primary" (click)="createCompany()">Create</button>
+        </ion-item>
+
+    </ion-list>
+    <div class="alert-message">
+        <span color="primary">Please connect to wifi what you want to use as company's wifi for checking-in!</span>
+    </div>
+</ion-content>

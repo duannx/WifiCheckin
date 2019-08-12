@@ -1,0 +1,18 @@
+page-my-company {
+    .status {
+        display: block;
+        text-align: center;
+        margin: 30px 0;
+    }
+    .button-group {
+        text-align: center;
+    }
+    .button {
+        width: 85%;
+        text-align: center;
+        margin: 10px auto;
+        border: solid 1px map-get($colors, primary);
+        padding: 10px;
+        border-radius: 5px;
+    }
+}
